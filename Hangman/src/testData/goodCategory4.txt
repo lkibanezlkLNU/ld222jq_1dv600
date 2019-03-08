@@ -1,0 +1,7 @@
+Music Genres
+Rock
+Pop
+Punk
+Jazz
+Blues
+Reggae
