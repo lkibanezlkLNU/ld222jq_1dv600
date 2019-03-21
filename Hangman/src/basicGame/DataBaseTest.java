@@ -26,7 +26,7 @@ class DataBaseTest {
 		db.register("john", "border");
 		
 		//This is how they should be stored
-		String expectedFileContent = "mark rainbow\r\njohn border\r\n";
+		String expectedFileContent = "mark rainbow 0\r\njohn border 0\r\n";
 		
 		//Importing the file to be analyzed
 		File f = new File("src\\testData\\dbTest.txt");
@@ -36,7 +36,7 @@ class DataBaseTest {
 		
 		//Reading the names from file for ease of comparing
 		while(input.hasNext())
-			actualFileContent += input.next() + " " + input.next() + "\r\n";
+			actualFileContent += input.next() + " " + input.next() + " " + input.next() + "\r\n";
 		
 		//The expected string should match the string generated from the file
 		assertTrue(actualFileContent.equals(expectedFileContent));	
@@ -78,6 +78,41 @@ class DataBaseTest {
 		assertTrue(db.correctPassword("parker", "princess"));
 		assertTrue(!db.correctPassword("parker", "prince"));
 		//This method shouldn't work on non registered users since the isRegistered method is always called before
+	}
+	
+	@Test
+	void shouldReturnNumberOfAccounts() {
+		DataBase db = new DataBase("src\\testData\\dbTest2.txt");
+		assertEquals(db.usernameList.size(), db.numberOfAccounts());
+	}
+	
+	@Test
+	void shouldUpdateScore() {
+		DataBase db = new DataBase("src\\testData\\dbTest3.txt");
+		
+		//Setting the score manually (this is usually done by the GUI after a guessed word)
+		db.highScore.set(0, 8);
+		db.highScore.set(1, 7);
+		db.updateScore();
+		
+		String expectedFileContent = "mocking bird 8\r\n" + "john lennon 7\r\n";
+		
+		Scanner input;
+		try {
+			input = new Scanner(new File("src\\testData\\dbTest3.txt"));
+			String actualFileContent = "";
+			//Reading the names from file for ease of comparing
+			while(input.hasNext())
+				actualFileContent += input.next() + " " + input.next() + " " + input.next() + "\r\n";
+					
+			//The expected string should match the string generated from the file
+			assertTrue(actualFileContent.equals(expectedFileContent));	
+			input.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		
 	}
 	
 	//Help method for clearing the file before doing a test

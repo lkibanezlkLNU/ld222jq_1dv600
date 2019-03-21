@@ -2,8 +2,11 @@ package basicGame;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Scanner;
 
 import org.junit.jupiter.api.Test;
 
@@ -23,8 +26,8 @@ class WordLibraryTest {
 		
 		//Since the (to be compared) arrayLists are of type Category, all the fields need to be checked
 		for(int i = 0; i < expectedCategoryArray.size(); i++) {
-			assertTrue(library.categories.get(i).categoryName.equals(expectedCategoryArray.get(i).categoryName));
-			assertTrue(library.categories.get(i).words.equals(expectedCategoryArray.get(i).words));
+			assertTrue(WordLibrary.categories.get(i).categoryName.equals(expectedCategoryArray.get(i).categoryName));
+			assertTrue(WordLibrary.categories.get(i).words.equals(expectedCategoryArray.get(i).words));
 		}
 	}
 	
@@ -41,9 +44,35 @@ class WordLibraryTest {
 		library = new WordLibrary("src\\testData\\testCategoryFolder");
 		
 		char[] expectedWord = "one".toCharArray();
-		char[] wordGiven = library.getWord(library.categories.get(0));
+		char[] wordGiven = library.getWord(WordLibrary.categories.get(0));
 
 		assertTrue(Arrays.equals(expectedWord, wordGiven));
 			
+	}
+	
+	@Test
+	void shouldRemoveWordFromCategory() {
+		library = new WordLibrary("src\\testData\\testCategoryFolder2");
+		
+		WordLibrary.currentCategory = WordLibrary.categories.get(0);
+		WordLibrary.currentWord = "two";
+		
+		WordLibrary.guessedWord();
+		
+		assertTrue(WordLibrary.categories.get(0).words.toString().equals("[one, three]"));
+		
+		library.updateCategory();
+		
+		Scanner input;
+		try {
+			input = new Scanner(new File("src\\testData\\testCategoryFolder2\\test.txt"));
+			input.nextLine();input.nextLine();
+			assertTrue(input.next().equals("one"));
+			assertTrue(input.next().equals("three"));
+			input.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

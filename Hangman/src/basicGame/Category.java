@@ -9,13 +9,7 @@ public class Category {
 	
 	String categoryName;
 	ArrayList<String> words = new ArrayList<String>();
-	
-	/*
-	 * In campaign mode, after a word is guessed it is removed from the list
-	 * the progress is initial size-current size / initial size * 100;
-	 * in Hardcore mode, if a word is not guessed, it adds to the wrongGuesses parameter 
-	 * that keeps track of the mistakes
-	 */
+	int initialSize;
 	
 	//Constructor that takes a category from a text file.
 	public Category(String path) {
@@ -27,11 +21,9 @@ public class Category {
 				throw new RuntimeException("File is empty");
 			else {
 				categoryName = input.nextLine();
-				if(!input.hasNext())
-					throw new RuntimeException("Category doesn't contain words");
-				else
-					while(input.hasNext())
-						words.add(input.nextLine());
+				initialSize = Integer.parseInt(input.nextLine());
+				while(input.hasNext())
+					words.add(input.nextLine());
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -50,5 +42,9 @@ public class Category {
 	
 	public int getSize() {
 		return words.size();
+	}
+	
+	public boolean hasWords() {
+		return words.size()!=0;
 	}
 }

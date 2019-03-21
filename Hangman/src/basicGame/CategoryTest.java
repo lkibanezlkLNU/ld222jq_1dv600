@@ -20,9 +20,11 @@ class CategoryTest {
 		testCategory = new Category(f.getAbsolutePath());
 		
 		String expectedName = "Test";
+		int expectedLength = 1;
 		String[] expectedArray = {"test"};
 		
 		assertTrue(testCategory.categoryName.equals(expectedName));
+		assertTrue(testCategory.initialSize == expectedLength);
 		assertArrayEquals(testCategory.words.toArray(),expectedArray);
 	}
 	
@@ -38,19 +40,7 @@ class CategoryTest {
 		//Check if the error thrown is the one intended
 		assertTrue(thrown.getMessage().contains("File is empty"));
 	}
-	
-	@Test
-	void shouldThrowErrorForNoWords(){
-		File f = new File("src\\testData\\nameOnlyCategory.txt");
 		
-		//Check if error is thrown
-		RuntimeException thrown = assertThrows(RuntimeException.class,
-				 () -> testCategory = new Category(f.getAbsolutePath()),"no error thrown");
-
-		//Check if the error thrown is the one intended
-		assertTrue(thrown.getMessage().contains("Category doesn't contain words"));
-	}
-	
 	@Test
 	void shouldAcessName() {
 		//Mock text file containing the title "Animals"
@@ -80,6 +70,23 @@ class CategoryTest {
 		
 		
 		assertEquals(testCategory.getSize(),6);
+	}
+	
+	@Test
+	void shouldReturnFalseIfNoWords() {
+		File f = new File("src\\testData\\nameOnlyCategory.txt");
+		testCategory = new Category(f.getAbsolutePath());
+		
+		assertFalse(testCategory.hasWords());
+	}
+	
+	@Test 
+	void shouldReturnFalseIfCategoryHasWords() {
+		File f = new File("src\\testData\\goodCategory4.txt");
+		testCategory = new Category(f.getAbsolutePath());
+		
+		assertTrue(testCategory.hasWords());
+		
 	}
 
 }

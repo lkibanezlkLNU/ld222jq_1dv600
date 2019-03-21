@@ -33,7 +33,7 @@ class ProcessorTest {
 		test2.guessed[2] = true;
 		test2.guessed[4] = true;
 		
-		String afterGuessExpectedPrint = "r _ i _ b _ _ ";
+		String afterGuessExpectedPrint = "R _ I _ B _ _ ";
 		assertEquals(test2.print(),afterGuessExpectedPrint);
 	}
 	
@@ -70,11 +70,13 @@ class ProcessorTest {
 	
 	@Test
 	void shouldGiveEndScreenMessage() {
+		//This test will fail until i can somehow ignore the "guessedWord" method call
+		
 		Processor test5 = new Processor("chicken".toCharArray());
 		//We assume that the game ended, there are two outcomes:
 		
-		String expectedOutcome1 = "Congratulations!\nYou guessed the word \"chicken\"";
-		String expectedOutcome2 = "Game over, the word was: chicken";
+		String expectedOutcome1 = "Congratulations!\nYou guessed the word \"CHICKEN\"";
+		String expectedOutcome2 = "Game over, the word was: \"CHICKEN\"";
 		//Outcome one, wrong guesses < 6
 		for(int i = 0; i < 6; i ++) {
 			test5.wrongGuesses = i;
@@ -89,7 +91,7 @@ class ProcessorTest {
 	@Test
 	void shouldReturnWord() {
 		Processor test6 = new Processor("mayonnaise".toCharArray());
-		assertEquals(test6.toString(),"mayonnaise");	
+		assertEquals(test6.toString(),"MAYONNAISE");	
 	}
 	
 	@Test
@@ -115,6 +117,20 @@ class ProcessorTest {
 		//Same guessed array
 		assertTrue(Arrays.equals(test7.guessed, expectedGuess));
 		assertEquals(test7.wrongGuesses, 1);
+	}
+	
+	@Test
+	void shouldRemoveSpaces() {
+		Processor test8 = new Processor("a cat".toCharArray());
+		
+		test8.checkForSpaces(test8.word);
+		
+		//Check if spaces are "guessed" in the boolean array
+		boolean[] expectedGuess = {false, true, false, false, false};
+		assertTrue(Arrays.equals(test8.guessed, expectedGuess));
+		
+		//Check if spaces are "guessed" in the guess counter
+		assertEquals(test8.remainingLetters, 3);
 	}
 
 }

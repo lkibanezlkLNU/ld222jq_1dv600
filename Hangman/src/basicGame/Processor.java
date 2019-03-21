@@ -11,9 +11,11 @@ public class Processor {
 	
 	//Constructor
 	public Processor(char[] word) {
-		this.word = word;
 		remainingLetters = word.length;
 		guessed = new boolean[word.length];
+		checkForSpaces(word);
+		this.word = word;
+		
 	}
 	/* This method should be used instead of the constructor to save memory
 	public void giveWord(char[] word) {
@@ -23,6 +25,15 @@ public class Processor {
 		
 	}*/
 	
+	void checkForSpaces(char[] wordWithSpaces) {
+		for(int i = 0; i < wordWithSpaces.length;i++)
+			if(wordWithSpaces[i] == ' ') {
+				guessed[i] = true;
+				remainingLetters--;
+			}
+		
+	}
+	
 	//This method is passed to the GUI
 	public String print() {
 		String s = "";
@@ -30,7 +41,7 @@ public class Processor {
 			if(guessed[i] == false)
 				s+= "_ ";
 			else
-				s+= word[i] + " ";
+				s+= Character.toUpperCase(word[i]) + " ";
 		return s;
 	}
 	
@@ -60,13 +71,15 @@ public class Processor {
 	
 	//Method passed to endScreen in GUI
 	public String printResult() {
+		//WordLibrary.guessedWord();
 		//If game ended with less than 6 wrong guesses, the word was guessed and game is won
-		if(wrongGuesses != 6)
+		if(wrongGuesses != 6) {
 			return "Congratulations!\nYou guessed the word \"" + this.toString() + "\"";
-					
+		}
 		//Else, the game is lost
 		else
-			return "Game over, the word was: " + this.toString();
+			return "Game over, the word was: \"" + this.toString() + "\"";
+		
 	}
 	
 	
@@ -74,7 +87,7 @@ public class Processor {
 	public String toString() {
 		String s = "";
 		for(int i = 0; i < word.length; i++)
-			s+=word[i];
+			s+=Character.toUpperCase(word[i]);
 		return s;
 	}
 }
