@@ -1,2 +1,0 @@
-mark rainbow 0
-john border 0

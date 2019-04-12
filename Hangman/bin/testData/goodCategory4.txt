@@ -1,8 +1,0 @@
-Music Genres
-6
-Rock
-Pop
-Punk
-Jazz
-Blues
-Reggae

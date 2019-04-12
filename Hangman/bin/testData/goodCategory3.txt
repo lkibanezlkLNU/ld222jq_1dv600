@@ -1,5 +1,0 @@
-Colors
-3
-red
-blue
-yellow
